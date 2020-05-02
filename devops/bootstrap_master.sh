@@ -26,5 +26,9 @@ echo "[TASK 3] Enable and start docker service"
 systemctl enable docker >/dev/null 2>&1
 systemctl start docker
 
-
+# Enable docker service
+echo "[TASK 4] Enable and start docker-compse"
+sudo curl -L "https://github.com/docker/compose/releases/download/1.25.5/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+sudo chmod +x /usr/local/bin/docker-compose
+sudo ln -s /usr/local/bin/docker-compose /usr/bin/docker-compose
 
