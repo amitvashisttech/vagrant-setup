@@ -5,20 +5,26 @@
 echo "[TASK 1] Initialize Ansible & JDK"
 apt-get install -y ansible sshpass python wget default-jdk maven >/dev/null 2>&1
 
-# Initialize Kubernetes
-#echo "[TASK 1] Initialize Kubernetes Cluster"
-#kubeadm init --apiserver-advertise-address=172.42.42.100 --pod-network-cidr=192.168.0.0/16 >> /root/kubeinit.log 2>/dev/null
+# Install docker from Docker-ce repository
+echo "[TASK 2] Install Docker Container Engine"
+apt-get update
+apt-get install -y \
+    apt-transport-https \
+    ca-certificates \
+    curl \
+    software-properties-common
+curl -fsSL https://download.docker.com/linux/ubuntu/gpg | apt-key add -
+add-apt-repository \
+   "deb https://download.docker.com/linux/$(. /etc/os-release; echo "$ID") \
+   $(lsb_release -cs) \
+   stable"
+apt-get update && apt-get install -y docker-ce=$(apt-cache madison docker-ce | grep 17.03 | head -1 | awk '{print $3}')
 
-# Copy Kube admin config
-#echo "[TASK 2] Copy kube admin config to Vagrant user .kube directory"
-#mkdir /home/vagrant/.kube
-#cp /etc/kubernetes/admin.conf /home/vagrant/.kube/config
-#chown -R vagrant:vagrant /home/vagrant/.kube
 
-# Deploy Calico network
-#echo "[TASK 3] Deploy Calico network"
-#su - vagrant -c "kubectl create -f https://docs.projectcalico.org/v3.11/manifests/calico.yaml"
+# Enable docker service
+echo "[TASK 3] Enable and start docker service"
+systemctl enable docker >/dev/null 2>&1
+systemctl start docker
 
-# Generate Cluster join command
-#echo "[TASK 4] Generate and save cluster join command to /joincluster.sh"
-#kubeadm token create --print-join-command > /joincluster.sh
+
+
