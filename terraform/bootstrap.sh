@@ -15,7 +15,7 @@ apt-get update >/dev/null 2>&1
 apt-get install -y  jq wget unzip  >/dev/null 2>&1
 
 # Download Terraform
-wget https://releases.hashicorp.com/terraform/0.11.12/terraform_0.11.12_linux_amd64.zip -P /root/ >/dev/null 2>&1
+wget https://releases.hashicorp.com/terraform/0.12.28/terraform_0.12.28_linux_amd64.zip -P /root/ >/dev/null 2>&1
 unzip /root/terraform_0.11.12_linux_amd64.zip
 mv terraform /usr/bin/
 chmod +x /usr/bin/terraform
